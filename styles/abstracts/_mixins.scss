@@ -1,0 +1,20 @@
+@use "./variables" as *;
+@use "../base/typography" as *;
+
+// ── Mixins ─────────────────────────────────────────────────────────────────
+@mixin flex-center { display: flex; align-items: center; }
+@mixin mono-label {
+  font-family: $mono;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+@mixin card-base {
+  background: $white;
+  border: 1.5px solid $slate-3;
+  border-radius: $r-xl;
+}
+@mixin transition($props: all, $dur: .18s) {
+  transition: $props $dur ease;
+}

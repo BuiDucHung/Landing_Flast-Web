@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { FOOTER_COLS } from "@/component/FlastNew/data";
+import HeaderFlast from "@/component/Header";
+import FlastFooter from "@/component/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,11 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <HeaderFlast />
+          {children}
+        <FlastFooter cols={FOOTER_COLS} />
       </body>
     </html>
   );

@@ -1,0 +1,941 @@
+@use "@/styles/abstracts/variables" as *;
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+}
+
+.logoMark {
+  width: 32px;
+  height: 32px;
+  background: $blue-2;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+}
+
+.logoName {
+  font-size: 17px;
+  font-weight: 600;
+  color: $navy;
+  letter-spacing: -0.02em;
+
+  span {
+    color: $blue-2;
+  }
+}
+
+.navLinks {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+
+  a {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: $slate-7;
+    text-decoration: none;
+    transition: color 0.15s;
+
+    &:hover,
+    &.active {
+      color: $blue-2;
+    }
+  }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+
+.navRight {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+// ─── BUTTONS ──────────────────────────────────────────────────────────────
+.btn {
+  font-family: var(--font);
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: -8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.18s;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btnGhost {
+  background: transparent;
+  color: $slate-7;
+  border: 1.5px solid $slate-3;
+
+  &:hover {
+    border-color: $slate-5;
+    color: $slate-9;
+  }
+}
+
+.btnPrimary {
+  background: $blue-2;
+  color: #fff;
+
+  &:hover {
+    background: $blue;
+  }
+}
+
+// ─── READING PROGRESS BAR ────────────────────────────────────────────────
+.progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: transparent;
+  z-index: 199;
+  pointer-events: none;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, $violet, $blue-2);
+  transition: width 0.1s linear;
+}
+
+// ─── ARTICLE BODY ─────────────────────────────────────────────────────────
+.artBody {
+  padding: 48px 5vw 80px;
+  background: $white;
+}
+
+.artContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+// ─── ARTICLE HEADER ───────────────────────────────────────────────────────
+.artHeader {
+  padding-bottom: 28px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid $slate-3;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: $slate-5;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+
+  a {
+    color: $slate-5;
+    text-decoration: none;
+    transition: color 0.15s;
+
+    &:hover {
+      color: $blue-2;
+    }
+  }
+
+  svg {
+    width: 12px;
+    height: 12px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    flex-shrink: 0;
+  }
+}
+
+.artTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+
+  &.ai {
+    background: $violet-bg;
+    color: $violet-text;
+    border: 1px solid rgba(124, 58, 237, 0.2);
+  }
+}
+
+.artHeroTitle {
+  font-size: clamp(24px, 3.2vw, 36px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: $navy;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.artHeroSub {
+  font-size: 16px;
+  color: $slate-5;
+  font-weight: 300;
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+
+.artMetaBar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.artAuthor {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.artAvatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $blue-2, $blue-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.artAuthorName {
+  font-size: 13px;
+  font-weight: 600;
+  color: $slate-9;
+}
+
+.artAuthorRole {
+  font-size: 11.5px;
+  color: $slate-5;
+}
+
+.artMetaSep {
+  width: 1px;
+  height: 22px;
+  background: $slate-3;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+
+.artMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: $slate-5;
+
+  svg {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    flex-shrink: 0;
+  }
+}
+
+// ─── ARTICLE LAYOUT (content + sidebar) ──────────────────────────────────
+.artLayout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 56px;
+  align-items: start;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ─── ARTICLE CONTENT ──────────────────────────────────────────────────────
+.artContent {
+  min-width: 0;
+}
+
+// ─── PROSE ────────────────────────────────────────────────────────────────
+.prose {
+  font-size: 16px;
+  line-height: 1.85;
+  color: $slate-7;
+
+  p {
+    margin-bottom: 22px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  h2 {
+    font-family: var(--font);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: $navy;
+    margin: 40px 0 14px;
+    padding-top: 8px;
+    border-top: 1px solid $slate-3;
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: $navy;
+    margin: 28px 0 10px;
+    letter-spacing: -0.015em;
+  }
+
+  strong {
+    font-weight: 600;
+    color: $slate-9;
+  }
+
+  em {
+    font-style: italic;
+    color: $slate-7;
+  }
+
+  a {
+    color: $blue-2;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+// ─── STATS ROW ────────────────────────────────────────────────────────────
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: $slate-3;
+  border: 1px solid $slate-3;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 28px 0;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statBox {
+  background: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.statBoxVal {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: $blue-2;
+  line-height: 1;
+}
+
+.statBoxLabel {
+  font-size: 12px;
+  color: $slate-5;
+  margin-top: 6px;
+}
+
+// ─── CALLOUT ──────────────────────────────────────────────────────────────
+.callout {
+  display: flex;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  margin: 28px 0;
+  border: 1px solid;
+
+  &.info {
+    background: $blue-50;
+    border-color: $blue-light;
+
+    .calloutIcon svg {
+      stroke: $blue-2;
+    }
+
+    .calloutTitle {
+      color: $blue;
+    }
+
+    .calloutDesc {
+      color: $blue;
+    }
+  }
+
+  &.success {
+    background: $green-bg;
+    border-color: #a7f3d0;
+
+    .calloutIcon svg {
+      stroke: $green;
+    }
+
+    .calloutTitle {
+      color: $green-text;
+    }
+
+    .calloutDesc {
+      color: $green-text;
+    }
+  }
+
+  &.warning {
+    background: $amber-bg;
+    border-color: #fcd34d;
+
+    .calloutIcon svg {
+      stroke: $amber-2;
+    }
+
+    .calloutTitle {
+      color: $amber-text;
+    }
+
+    .calloutDesc {
+      color: $amber-text;
+    }
+  }
+}
+
+.calloutIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 1px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+  }
+}
+
+.calloutTitle {
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.calloutDesc {
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+// ─── CODE BLOCK ───────────────────────────────────────────────────────────
+.codeBlock {
+  background: #0f1117;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 24px 0;
+}
+
+.codeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #1a1d27;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.codeLang {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.05em;
+}
+
+.codeCopy {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  transition: color 0.15s;
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  svg {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+  }
+}
+
+.codeBody {
+  padding: 18px 20px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: #e2e8f0;
+  overflow-x: auto;
+  white-space: pre;
+
+  .kw {
+    color: #93c5fd;
+  }
+
+  .str {
+    color: #86efac;
+  }
+
+  .cm {
+    color: #64748b;
+    font-style: italic;
+  }
+
+  .fn {
+    color: #fca5a5;
+  }
+
+  .num {
+    color: #fcd34d;
+  }
+}
+
+// ─── BLOCKQUOTE ───────────────────────────────────────────────────────────
+.artQuote {
+  border-left: 3px solid $blue-2;
+  padding: 4px 0 4px 24px;
+  margin: 28px 0;
+
+  p {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-style: italic;
+    color: $slate-7;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  cite {
+    display: block;
+    font-size: 13px;
+    color: $slate-5;
+    margin-top: 8px;
+    font-style: normal;
+    font-weight: 500;
+  }
+}
+
+// ─── IMAGE PLACEHOLDER ───────────────────────────────────────────────────
+.artImg {
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 28px 0 0;
+  background: linear-gradient(135deg, $slate-0, $slate-1);
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $slate-3;
+}
+
+.artImgCaption {
+  font-size: 12.5px;
+  color: $slate-5;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 28px;
+  font-style: italic;
+}
+
+// ─── ARTICLE FOOTER ──────────────────────────────────────────────────────
+.artFooter {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid $slate-3;
+}
+
+.artTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 24px;
+}
+
+.artTagItem {
+  font-size: 12.5px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  background: $slate-1;
+  color: $slate-7;
+  text-decoration: none;
+  transition: all 0.15s;
+  border: 1.5px solid transparent;
+
+  &:hover {
+    background: $blue-50;
+    color: $blue-2;
+    border-color: $blue-light;
+  }
+}
+
+.shareRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.shareLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: $slate-7;
+}
+
+.shareBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid $slate-3;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  color: $slate-7;
+
+  &:hover {
+    border-color: $blue-2;
+    color: $blue-2;
+  }
+
+  svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+  }
+}
+
+// ─── AUTHOR CARD ──────────────────────────────────────────────────────────
+.authorCard {
+  display: flex;
+  gap: 18px;
+  padding: 24px;
+  background: $slate-0;
+  border: 1.5px solid $slate-3;
+  border-radius: 20px;
+  margin: 30px 0;
+  align-items: flex-start;
+}
+
+.authorCardAvatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $blue-2, $blue-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.authorCardName {
+  font-size: 15px;
+  font-weight: 600;
+  color: $navy;
+  margin-bottom: 3px;
+}
+
+.authorCardRole {
+  font-size: 12.5px;
+  color: $slate-5;
+  margin-bottom: 8px;
+}
+
+.authorCardBio {
+  font-size: 13px;
+  color: $slate-7;
+  line-height: 1.65;
+}
+
+// ─── SIDEBAR ──────────────────────────────────────────────────────────────
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-self: start;
+  position: sticky;
+  top: 84px;
+
+  @media (max-width: 1000px) {
+    position: static;
+  }
+}
+
+.sidebarCard {
+  background: #fff;
+  border: 1.5px solid $slate-3;
+  border-radius: 20px;
+  padding: 20px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sidebarTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: $navy;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: $blue-2;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+}
+
+// ─── TOC ──────────────────────────────────────────────────────────────────
+.tocList {
+  display: flex;
+  flex-direction: column;
+}
+
+.tocItem {
+  font-size: 13px;
+  color: $slate-5;
+  padding: 7px 10px;
+  border-radius: -8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+  border-left: 2px solid transparent;
+  line-height: 1.5;
+  display: block;
+
+  &:hover,
+  &.active {
+    color: $blue-2;
+    background: $blue-50;
+    border-color: $blue-2;
+  }
+
+  &.h3 {
+    padding-left: 20px;
+    font-size: 12px;
+  }
+}
+
+// ─── CTA CARD ─────────────────────────────────────────────────────────────
+.ctaCard {
+  background: linear-gradient(135deg, $navy-2, #0a1f45);
+  border-radius: 20px;
+  padding: 22px;
+  color: #fff;
+
+  h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  p {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+}
+
+.ctaCardBtn {
+  display: block;
+  text-align: center;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px;
+  border-radius: -8px;
+  background: $blue-2;
+  color: #fff;
+  text-decoration: none;
+  transition: background 0.18s;
+
+  &:hover {
+    background: $blue-3;
+  }
+}
+
+// ─── RELATED LIST ─────────────────────────────────────────────────────────
+.relatedList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.relatedItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+
+  &:hover {
+    background: $slate-0;
+    border-color: $slate-3;
+  }
+}
+
+.relatedTag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-bottom: 2px;
+}
+
+.relatedTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: $navy;
+  line-height: 1.45;
+
+  .relatedItem:hover & {
+    color: $blue-2;
+  }
+}
+
+.relatedMeta {
+  font-size: 11.5px;
+  color: $slate-5;
+  font-family: var(--mono);
+}
+
+// ─── MORE ARTICLES (card with image) ─────────────────────────────────────
+.moreCard {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  border-top: 1px solid $slate-3;
+  transition: background 0.15s;
+
+  &:first-of-type {
+    border-top: none;
+  }
+
+  &:hover {
+    background: $slate-0;
+  }
+}
+
+.moreCardImg {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 36px;
+    height: 36px;
+    opacity: 0.2;
+  }
+}
+
+.moreCardBody {
+  padding: 12px 18px 16px;
+}
+
+.moreCardTagSm {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.moreCardTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: $navy;
+  line-height: 1.45;
+  margin-bottom: 5px;
+
+  .moreCard:hover & {
+    color: $blue-2;
+  }
+}
+
+.moreCardMeta {
+  font-size: 11px;
+  color: $slate-5;
+  font-family: var(--mono);
+}

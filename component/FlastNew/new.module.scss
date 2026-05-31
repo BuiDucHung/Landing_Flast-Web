@@ -1,0 +1,762 @@
+@use "@/styles/abstracts/variables" as *;
+@use "@/styles/base/typography" as *;
+@use "@/styles/abstracts/mixins" as *;
+@use "@/styles/abstracts/breakpoints" as *;
+
+// ── Fade animation ─────────────────────────────────────────────────────────
+.fade {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .55s ease, transform .55s ease;
+
+  &.in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// ── Tag badges ─────────────────────────────────────────────────────────────
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: $mono;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+
+  &--product   { background: $blue-50;    color: $blue;        }
+  &--opensource{ background: $green-bg;   color: $green-text;  }
+  &--security  { background: $teal-bg;    color: $teal;        }
+  &--ai        { background: $violet-bg;  color: $violet-text; }
+  &--casestudy { background: $amber-bg;   color: $amber-text;  }
+  &--company   { background: $slate-1;    color: $slate-7;     }
+}
+
+// ── Nav ────────────────────────────────────────────────────────────────────
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 64px;
+  @include flex-center;
+  justify-content: space-between;
+  padding: 0 5vw;
+  background: rgba($white, .96);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid $slate-3;
+
+  &__logo {
+    @include flex-center;
+    gap: 9px;
+    text-decoration: none;
+  }
+
+  &__logo-mark {
+    width: 32px; height: 32px;
+    background: $blue-2;
+    border-radius: $r;
+    @include flex-center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__logo-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: $navy;
+    letter-spacing: -.02em;
+
+    span { color: $blue-2; }
+  }
+
+  &__links {
+    display: none;
+    gap: 24px;
+    list-style: none;
+
+    @media (min-width: $bp-md) { display: flex; }
+
+    a {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: $slate-7;
+      text-decoration: none;
+      @include transition(color);
+
+      &:hover, &--active { color: $blue-2; }
+    }
+  }
+
+  &__right {
+    @include flex-center;
+    gap: 8px;
+  }
+}
+
+// ── Buttons ────────────────────────────────────────────────────────────────
+.btn {
+  font-family: $font;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: $r;
+  cursor: pointer;
+  text-decoration: none;
+  @include transition;
+  border: none;
+  @include flex-center;
+  gap: 6px;
+  white-space: nowrap;
+  line-height: 1;
+
+  &--ghost {
+    background: transparent;
+    color: $slate-7;
+    border: 1.5px solid $slate-3;
+
+    &:hover { border-color: $slate-5; color: $slate-9; }
+  }
+
+  &--primary {
+    background: $blue-2;
+    color: $white;
+    box-shadow: 0 1px 4px rgba($blue-2, .28);
+
+    &:hover { background: $blue; }
+  }
+}
+
+// ── Page hero ──────────────────────────────────────────────────────────────
+.hero {
+  padding-top: 64px;
+  background: linear-gradient(165deg, $navy-2 0%, #0A1F45 100%);
+  position: relative;
+  overflow: hidden;
+
+  &__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 59px, rgba($white,.04) 59px, rgba($white,.04) 60px),
+      repeating-linear-gradient(90deg, transparent, transparent 59px, rgba($white,.04) 59px, rgba($white,.04) 60px);
+  }
+
+  &__glow {
+    position: absolute;
+    width: 600px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba($blue-2,.18) 0%, transparent 65%);
+    top: -80px; right: -100px;
+    pointer-events: none;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 5vw 56px;
+  }
+
+  &__kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: $mono;
+    font-size: 11px;
+    letter-spacing: .08em;
+    color: #93C5FD;
+    background: rgba($blue-2, .18);
+    border: 1px solid rgba(#93C5FD, .25);
+    padding: 5px 14px;
+    border-radius: 99px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 600;
+    letter-spacing: -.035em;
+    color: $white;
+    margin-bottom: 14px;
+    line-height: 1.15;
+
+    em { font-style: normal; color: #93C5FD; }
+  }
+
+  &__sub {
+    font-size: 16px;
+    color: rgba($white, .55);
+    font-weight: 300;
+    max-width: 500px;
+    line-height: 1.75;
+    margin-bottom: 36px;
+  }
+
+  &__filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  &__filter-btn {
+    font-family: $font;
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 99px;
+    cursor: pointer;
+    border: 1.5px solid rgba($white, .15);
+    background: transparent;
+    color: rgba($white, .55);
+    @include transition;
+
+    &:hover { border-color: rgba($white,.35); color: rgba($white,.85); }
+    &--active { background: $blue-2; border-color: $blue-2; color: $white; }
+  }
+}
+
+// ── Featured strip ─────────────────────────────────────────────────────────
+.featured {
+  background: $white;
+  border-bottom: 1px solid $slate-3;
+  padding: 0 5vw;
+
+  &__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 420px;
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: 1.6fr 1fr;
+    }
+  }
+
+  &__main {
+    padding: 48px 0;
+    border-bottom: 1px solid $slate-3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    @media (min-width: $bp-lg) {
+      padding: 48px 48px 48px 0;
+      border-right: 1px solid $slate-3;
+      border-bottom: none;
+    }
+
+    h2 {
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 600;
+      letter-spacing: -.025em;
+      color: $navy;
+      line-height: 1.3;
+      margin-bottom: 12px;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        @include transition(color);
+        &:hover { color: $blue-2; }
+      }
+    }
+  }
+
+  &__main-desc {
+    font-size: 14px;
+    color: $slate-5;
+    line-height: 1.7;
+    margin-bottom: 18px;
+    font-weight: 300;
+    max-width: 520px;
+  }
+
+  &__side {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__side-item {
+    padding: 20px 0;
+    border-bottom: 1px solid $slate-3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    cursor: pointer;
+    @include transition(background);
+    text-decoration: none;
+
+    &:last-child { border-bottom: none; }
+    &:hover { background: $slate-0; }
+
+    @media (min-width: $bp-lg) {
+      padding: 24px 0 24px 40px;
+    }
+  }
+
+  &__side-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: $navy;
+    line-height: 1.45;
+    margin-bottom: 8px;
+
+    &:hover { color: $blue-2; }
+  }
+}
+
+// ── Article meta ───────────────────────────────────────────────────────────
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: $slate-5;
+  flex-wrap: wrap;
+
+  &__dot {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: $slate-3;
+    display: inline-block;
+  }
+
+  &__author {
+    @include flex-center;
+    gap: 6px;
+  }
+
+  &__avatar {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: $blue-2;
+    @include flex-center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: $white;
+    flex-shrink: 0;
+  }
+}
+
+// ── Article card ───────────────────────────────────────────────────────────
+.card {
+  @include card-base;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  @include transition((box-shadow, border-color));
+  text-decoration: none;
+
+  &:hover {
+    box-shadow: $sh-lg;
+    border-color: $slate-5;
+
+    .card__read-arrow { transform: translateX(3px); }
+  }
+
+  &__img {
+    height: 160px;
+    @include flex-center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    svg { opacity: .18; }
+  }
+
+  &__body {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: $navy;
+    line-height: 1.45;
+    margin-bottom: 8px;
+    letter-spacing: -.01em;
+  }
+
+  &__desc {
+    font-size: 12.5px;
+    color: $slate-5;
+    line-height: 1.65;
+    font-weight: 300;
+    flex: 1;
+    margin-bottom: 14px;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid $slate-3;
+  }
+
+  &__date {
+    font-family: $mono;
+    font-size: 11px;
+    color: $slate-5;
+  }
+
+  &__read {
+    font-size: 12px;
+    color: $blue-2;
+    font-weight: 500;
+    @include flex-center;
+    gap: 4px;
+  }
+
+  &__read-arrow {
+    @include transition(transform);
+  }
+}
+
+// ── Article grid ───────────────────────────────────────────────────────────
+.art-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+
+  @media (min-width: $bp-sm) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+// ── Section label ──────────────────────────────────────────────────────────
+.s-label {
+  @include mono-label;
+  color: $slate-5;
+  margin-bottom: 20px;
+}
+
+// ── Pagination ─────────────────────────────────────────────────────────────
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 48px;
+
+  &__btn {
+    width: 36px; height: 36px;
+    border-radius: $r;
+    @include flex-center;
+    justify-content: center;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid $slate-3;
+    background: $white;
+    color: $slate-7;
+    @include transition;
+    text-decoration: none;
+
+    &:hover       { border-color: $blue-2; color: $blue-2; }
+    &--active     { background: $blue-2; border-color: $blue-2; color: $white; }
+  }
+
+  &__dots {
+    font-size: 14px;
+    color: $slate-3;
+    padding: 0 4px;
+  }
+}
+
+// ── Sidebar ────────────────────────────────────────────────────────────────
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (min-width: $bp-lg) {
+    position: sticky;
+    top: 80px;
+  }
+
+  &__card {
+    @include card-base;
+    padding: 22px;
+  }
+
+  &__title {
+    font-size: 13px;
+    font-weight: 600;
+    color: $navy;
+    margin-bottom: 16px;
+    @include flex-center;
+    gap: 7px;
+  }
+}
+
+// Trending list
+.trending {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid $slate-3;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:last-child  { border-bottom: none; padding-bottom: 0; }
+    &:first-child { padding-top: 0; }
+    &:hover .trending__text { color: $blue-2; }
+  }
+
+  &__num {
+    font-family: $mono;
+    font-size: 18px;
+    font-weight: 500;
+    color: $slate-3;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 22px;
+  }
+
+  &__text {
+    font-size: 13px;
+    font-weight: 500;
+    color: $navy;
+    line-height: 1.45;
+    @include transition(color);
+  }
+}
+
+// Newsletter
+.newsletter {
+  &__desc {
+    font-size: 13px;
+    color: $slate-5;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  &__input {
+    width: 100%;
+    font-family: $font;
+    font-size: 13px;
+    padding: 9px 12px;
+    border: 1.5px solid $slate-3;
+    border-radius: $r;
+    outline: none;
+    @include transition(border-color);
+    margin-bottom: 8px;
+    color: $slate-9;
+
+    &:focus { border-color: $blue-2; }
+  }
+
+  &__btn {
+    width: 100%;
+    font-family: $font;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 9px;
+    border-radius: $r;
+    background: $blue-2;
+    color: $white;
+    border: none;
+    cursor: pointer;
+    @include transition(background);
+
+    &:hover { background: $blue; }
+  }
+}
+
+// Product news items
+.prod-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid $slate-3;
+  border-radius: $r-lg;
+  cursor: pointer;
+  @include transition((border-color, background));
+  text-decoration: none;
+
+  &:hover { border-color: $blue-3; background: $blue-50; }
+
+  &__icon {
+    width: 34px; height: 34px;
+    border-radius: $r;
+    @include flex-center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &--blue   { background: $blue-50;   svg { stroke: $blue-2;   } }
+    &--violet { background: $violet-bg; svg { stroke: $violet;   } }
+    &--green  { background: $green-bg;  svg { stroke: $green;    } }
+    &--teal   { background: $teal-bg;   svg { stroke: $teal;     } }
+  }
+
+  &__name  { font-size: 12.5px; font-weight: 600; color: $navy;   }
+  &__count { font-size: 11.5px; color: $slate-5;                  }
+}
+
+.prod-list { display: flex; flex-direction: column; gap: 10px; }
+
+// Tags cloud
+.tags-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+
+  &__item {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 11px;
+    border-radius: 99px;
+    background: $slate-1;
+    color: $slate-7;
+    cursor: pointer;
+    @include transition;
+    border: 1.5px solid transparent;
+    text-decoration: none;
+
+    &:hover {
+      background: $blue-50;
+      color: $blue-2;
+      border-color: $blue-light;
+    }
+  }
+}
+
+// ── News body layout ───────────────────────────────────────────────────────
+.news-body {
+  padding: 56px 5vw;
+  background: $slate-0;
+
+  &__layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 56px;
+    align-items: start;
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: 1fr 320px;
+    }
+  }
+}
+
+// ── Footer ─────────────────────────────────────────────────────────────────
+.footer {
+  background: $navy;
+  padding: 52px 5vw 28px;
+  border-top: 1px solid rgba($white, .07);
+
+  &__wrap { max-width: 1100px; margin: 0 auto; }
+
+  &__top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+    }
+  }
+
+  &__brand {
+    grid-column: 1 / -1;
+
+    @media (min-width: $bp-lg) { grid-column: auto; }
+
+    p {
+      font-size: 12.5px;
+      color: rgba($white, .35);
+      line-height: 1.75;
+      margin-top: 12px;
+      max-width: 280px;
+    }
+  }
+
+  &__col {
+    h5 {
+      font-size: 10.5px;
+      font-weight: 600;
+      font-family: $mono;
+      color: rgba($white, .4);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    a {
+      display: block;
+      font-size: 12.5px;
+      color: rgba($white, .35);
+      text-decoration: none;
+      margin-bottom: 9px;
+      @include transition(color);
+
+      &:hover { color: rgba($white, .75); }
+    }
+  }
+
+  &__bottom {
+    border-top: 1px solid rgba($white, .07);
+    padding-top: 22px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: rgba($white, .25);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+// ── Back to top ────────────────────────────────────────────────────────────
+.btt {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  z-index: 300;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: $blue-2;
+  color: $white;
+  border: none;
+  cursor: pointer;
+  @include flex-center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba($blue-2, .35);
+  opacity: 0;
+  transform: translateY(12px);
+  @include transition((opacity, transform, background), .25s);
+  pointer-events: none;
+
+  &--show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  &:hover { background: $blue; }
+}
+
+// ── Empty state ────────────────────────────────────────────────────────────
+.empty {
+  font-size: 14px;
+  color: $slate-5;
+  padding: 48px 0;
+  text-align: center;
+}
