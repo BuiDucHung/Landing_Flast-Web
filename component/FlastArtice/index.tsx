@@ -12,6 +12,8 @@ import {
 } from "./data";
 import BackToTop from "../BackToTop";
 import s from "./style.module.scss";
+import { ArticleNewDetail, ArticleNewDetailResponse } from "@/lib/api/newDetail";
+import { formatDate } from "@/utils";
 
 
 const ChevronRight = () => (
@@ -41,7 +43,9 @@ function CopyButton({ text }: { text: string }) {
 }
 
 // ─── PAGE COMPONENT ───────────────────────────────────────────────────────
-export default function AIAgent2Page() {
+export default function AIAgent2Page({detailNew}: {
+  detailNew: ArticleNewDetail
+}) {
   const [progress, setProgress] = useState(0);
   const [showBtt, setShowBtt] = useState(false);
   const [activeToc, setActiveToc] = useState("van-de");
@@ -88,19 +92,22 @@ export default function AIAgent2Page() {
         <div className={s.artContainer}>
 
           {/* ── ARTICLE HEADER ──────────────────────────────────────── */}
-          <div className={s.artHeader}>
+          <div className={s.artHeader} style={{marginTop: 50}}>
             {/* Breadcrumb */}
             <div className={s.breadcrumb}>
               {articleMeta.breadcrumbs.map((crumb, i) => (
                 <span key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   {i > 0 && <ChevronRight />}
                   {crumb.href ? (
-                    <Link href={crumb.href}>{crumb.label}</Link>
+                    <>
+                      <Link href={crumb.href}>{crumb.label}</Link>
+                    </>
                   ) : (
                     <span>{crumb.label}</span>
                   )}
                 </span>
               ))}
+              {!!detailNew?.name && <span style={{display: 'flex', alignItems: 'center', gap: 10}}> <ChevronRight/>  {detailNew?.name}</span>}
             </div>
 
             {/* Tag */}
@@ -109,38 +116,38 @@ export default function AIAgent2Page() {
             </div>
 
             {/* Title & subtitle */}
-            <h1 className={s.artHeroTitle}>{articleMeta.title}</h1>
-            <p className={s.artHeroSub}>{articleMeta.subtitle}</p>
+            <h1 className={s.artHeroTitle}>{detailNew.title}</h1>
+            <p className={s.artHeroSub}>{detailNew.desc}</p>
 
             {/* Meta bar */}
             <div className={s.artMetaBar}>
-              <div className={s.artAuthor}>
+              {/* <div className={s.artAuthor}>
                 <div className={s.artAvatar}>{articleMeta.author.initials}</div>
                 <div>
                   <div className={s.artAuthorName}>{articleMeta.author.name}</div>
                   <div className={s.artAuthorRole}>{articleMeta.author.role}</div>
                 </div>
-              </div>
+              </div> */}
 
-              <div className={s.artMetaSep} />
+              {/* <div className={s.artMetaSep} /> */}
 
               <div className={s.artMetaItem}>
                 <svg viewBox="0 0 24 24">
                   <rect x="3" y="4" width="18" height="18" rx="2" />
                   <path d="M16 2v4M8 2v4M3 10h18" />
                 </svg>
-                {articleMeta.date}
+                {formatDate(detailNew.createdAt)}
               </div>
 
-              <div className={s.artMetaSep} />
+              {/* <div className={s.artMetaSep} /> */}
 
-              <div className={s.artMetaItem}>
+              {/* <div className={s.artMetaItem}>
                 <svg viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="9" />
                   <path d="M12 7v5l3 3" />
                 </svg>
                 {articleMeta.readTime}
-              </div>
+              </div> */}
 
               <div className={s.artMetaSep} />
 
@@ -149,7 +156,7 @@ export default function AIAgent2Page() {
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                   <circle cx="12" cy="12" r="3" />
                 </svg>
-                {articleMeta.views}
+                {detailNew?.view ?? 0}
               </div>
             </div>
           </div>
@@ -161,25 +168,19 @@ export default function AIAgent2Page() {
             <article className={s.artContent}>
               <div className={s.prose}>
 
-                <p>
-                  Hôm nay chúng tôi ra mắt{" "}
-                  <strong>Flast AI Agent 2.0</strong> — phiên bản nâng cấp toàn
-                  diện với khả năng tự động sinh chứng từ thương mại quốc tế.
-                  Đây là tính năng được cộng đồng người dùng xuất nhập khẩu của
-                  Flast yêu cầu nhiều nhất trong 6 tháng vừa qua.
-                </p>
+                <div dangerouslySetInnerHTML={{__html: detailNew?.content}}/>
 
                 {/* Stats */}
-                <div className={s.statsRow}>
+                {/* <div className={s.statsRow}>
                   {keyStats.map((st) => (
                     <div key={st.label} className={s.statBox}>
                       <div className={s.statBoxVal}>{st.value}</div>
                       <div className={s.statBoxLabel}>{st.label}</div>
                     </div>
                   ))}
-                </div>
+                </div> */}
 
-                <h2 id="van-de">Vấn đề mà chúng tôi muốn giải quyết</h2>
+                {/* <h2 id="van-de">Vấn đề mà chúng tôi muốn giải quyết</h2>
                 <p>
                   Mỗi lô hàng xuất khẩu đòi hỏi một bộ chứng từ phức tạp:{" "}
                   <strong>Commercial Invoice</strong>,{" "}
@@ -188,18 +189,18 @@ export default function AIAgent2Page() {
                   quan. Kế toán xuất nhập khẩu thường mất 2–4 giờ mỗi ngày chỉ
                   để sao chép dữ liệu từ đơn hàng vào các mẫu này — công việc
                   lặp lại, dễ nhầm, và không tạo ra giá trị thực sự.
-                </p>
+                </p> */}
 
-                <blockquote className={s.artQuote}>
+                {/* <blockquote className={s.artQuote}>
                   <p>
                     Nhân viên của tôi mất cả buổi sáng để làm chứng từ cho 5
                     lô hàng. Sau khi dùng AI Agent, công việc đó xong trong 15
                     phút.
                   </p>
                   <cite>— Kế toán trưởng, Công ty XNK Hải Phòng</cite>
-                </blockquote>
+                </blockquote> */}
 
-                <h2 id="tinh-nang">Tính năng mới trong v2.0</h2>
+                {/* <h2 id="tinh-nang">Tính năng mới trong v2.0</h2>
 
                 <h3 id="doc-don-hang">1. Đọc và phân tích đơn hàng tự động</h3>
                 <p>
@@ -208,9 +209,9 @@ export default function AIAgent2Page() {
                   cấu trúc dữ liệu đơn hàng của từng doanh nghiệp. Không cần
                   cấu hình mapping thủ công — AI tự suy luận trường nào ứng với
                   trường nào trong mẫu chứng từ.
-                </p>
+                </p> */}
 
-                <div className={`${s.callout} ${s.info}`}>
+                {/* <div className={`${s.callout} ${s.info}`}>
                   <div className={s.calloutIcon}>
                     <svg viewBox="0 0 24 24">
                       <circle cx="12" cy="12" r="9" />
@@ -225,17 +226,17 @@ export default function AIAgent2Page() {
                       tại mục tài liệu.
                     </div>
                   </div>
-                </div>
+                </div> */}
 
-                <h3 id="sinh-chung-tu">2. Sinh chứng từ bằng lệnh ngôn ngữ tự nhiên</h3>
+                {/* <h3 id="sinh-chung-tu">2. Sinh chứng từ bằng lệnh ngôn ngữ tự nhiên</h3>
                 <p>
                   Thay vì điền form, người dùng chỉ cần gõ lệnh trong chat. AI
                   Agent sẽ truy vấn dữ liệu, điền vào mẫu chuẩn và xuất file
                   PDF sẵn sàng ký.
-                </p>
+                </p> */}
 
                 {/* Code block */}
-                <div className={s.codeBlock}>
+                {/* <div className={s.codeBlock}>
                   <div className={s.codeHeader}>
                     <span className={s.codeLang}>LỆNH CHAT</span>
                     <CopyButton text={codeText} />
@@ -259,8 +260,8 @@ export default function AIAgent2Page() {
                     <span className={s.num}>2.8s</span>){"\n"}
                     <span className={s.kw}>4.</span> Gửi email tự động ✓
                   </div>
-                </div>
-
+                </div> */}
+{/* 
                 <div className={`${s.callout} ${s.success}`}>
                   <div className={s.calloutIcon}>
                     <svg viewBox="0 0 24 24">
@@ -275,19 +276,19 @@ export default function AIAgent2Page() {
                       Hóa đơn VAT · Hợp đồng mua bán
                     </div>
                   </div>
-                </div>
+                </div> */}
 
-                <h2 id="ket-qua">Kết quả thực tế</h2>
+                {/* <h2 id="ket-qua">Kết quả thực tế</h2>
                 <p>
                   Sau 3 tháng beta với 40 doanh nghiệp xuất nhập khẩu, dữ liệu
                   cho thấy AI Agent 2.0 giảm thời gian làm chứng từ trung bình{" "}
                   <strong>85%</strong>, tỷ lệ lỗi nhập liệu giảm về gần 0, và
                   kế toán có thêm thời gian cho các công việc phân tích giá trị
                   cao hơn.
-                </p>
+                </p> */}
 
                 {/* Chart placeholder */}
-                <div className={s.artImg}>
+                {/* <div className={s.artImg}>
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
@@ -302,9 +303,9 @@ export default function AIAgent2Page() {
                 <p className={s.artImgCaption}>
                   Biểu đồ so sánh thời gian xử lý chứng từ trước và sau khi
                   dùng AI Agent 2.0
-                </p>
+                </p> */}
 
-                <div className={`${s.callout} ${s.warning}`}>
+                {/* <div className={`${s.callout} ${s.warning}`}>
                   <div className={s.calloutIcon}>
                     <svg viewBox="0 0 24 24">
                       <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
@@ -319,20 +320,20 @@ export default function AIAgent2Page() {
                       các trường số lượng, đơn giá và điều khoản thanh toán.
                     </div>
                   </div>
-                </div>
+                </div> */}
 
-                <h2 id="bat-dau">Bắt đầu sử dụng</h2>
+                {/* <h2 id="bat-dau">Bắt đầu sử dụng</h2>
                 <p>
                   Tính năng này có sẵn từ gói <strong>Business</strong> trở
                   lên. Nếu bạn đang dùng bản trial, tính năng sẽ tự động được
                   bật. Truy cập{" "}
                   <a href="#">tài liệu hướng dẫn</a> để xem danh sách mẫu chứng
                   từ hiện có và cách thêm mẫu tùy chỉnh của doanh nghiệp.
-                </p>
+                </p> */}
               </div>
 
               {/* ── TAGS + SHARE ───────────────────────────────────── */}
-              <div className={s.artFooter}>
+              {/* <div className={s.artFooter}>
                 <div className={s.artTags}>
                   {articleTags.map((tag) => (
                     <a key={tag} href="#" className={s.artTagItem}>
@@ -342,26 +343,26 @@ export default function AIAgent2Page() {
                 </div>
                 <div className={s.shareRow}>
                   <span className={s.shareLabel}>Chia sẻ:</span>
-                  {/* Facebook */}
+            
                   <a href="#" className={s.shareBtn} title="Facebook">
                     <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
                       <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
                     </svg>
                   </a>
-                  {/* LinkedIn */}
+      
                   <a href="#" className={s.shareBtn} title="LinkedIn">
                     <svg viewBox="0 0 24 24">
                       <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
                       <circle cx="4" cy="4" r="2" />
                     </svg>
                   </a>
-                  {/* Twitter/X */}
+         
                   <a href="#" className={s.shareBtn} title="Twitter/X">
                     <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
                   </a>
-                  {/* Copy link */}
+           
                   <a href="#" className={s.shareBtn} title="Copy link">
                     <svg viewBox="0 0 24 24">
                       <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" />
@@ -369,10 +370,10 @@ export default function AIAgent2Page() {
                     </svg>
                   </a>
                 </div>
-              </div>
+              </div> */}
 
               {/* ── AUTHOR CARD ────────────────────────────────────── */}
-              <div className={s.authorCard}>
+              {/* <div className={s.authorCard}>
                 <div className={s.authorCardAvatar}>
                   {articleMeta.author.initials}
                 </div>
@@ -387,7 +388,7 @@ export default function AIAgent2Page() {
                     {articleMeta.author.bio}
                   </div>
                 </div>
-              </div>
+              </div> */}
             </article>
 
             {/* ── SIDEBAR ─────────────────────────────────────────── */}
@@ -428,7 +429,7 @@ export default function AIAgent2Page() {
               </div>
 
               {/* Related articles */}
-              <div className={s.sidebarCard}>
+              {/* <div className={s.sidebarCard}>
                 <div className={s.sidebarTitle}>
                   <svg viewBox="0 0 24 24">
                     <path d="M4 6h16M4 12h10M4 18h6" />
@@ -449,10 +450,10 @@ export default function AIAgent2Page() {
                     </a>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               {/* More articles (with image) */}
-              <div className={s.sidebarCard} style={{ padding: 0, overflow: "hidden" }}>
+              {/* <div className={s.sidebarCard} style={{ padding: 0, overflow: "hidden" }}>
                 <div className={s.sidebarTitle} style={{ padding: "18px 18px 0" }}>
                   <svg viewBox="0 0 24 24">
                     <path d="M4 6h16M4 12h16M4 18h16" />
@@ -489,7 +490,7 @@ export default function AIAgent2Page() {
                     </a>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
             </aside>
           </div>

@@ -1,7 +1,9 @@
+import { Article } from "@/lib/api/newList";
 import { TagBadge } from ".";
 import { FEATURED_MAIN, FeaturedSideItem } from "./data";
 import style from "./new.module.scss";
 import { Fade } from "./SideBarFlast";
+import Link from "next/link";
 
 
 // ── Meta row ───────────────────────────────────────────────────────────────
@@ -29,19 +31,25 @@ export function MetaRow({ date, read, author}: {
 }
 
 // ── Featured strip ─────────────────────────────────────────────────────────
-const FeaturedStripFlast = ({ items }: { items: FeaturedSideItem[] }) => {
+const FeaturedStripFlast = ({ items, articles }: { items: FeaturedSideItem[], articles: Article[] }) => {
   const f = FEATURED_MAIN;
+
   return (
     <div className={style.featured}>
       <div className={style.featured__inner}>
         {/* Main */}
         <Fade className={style.featured__main}>
-          <TagBadge cls={f.tag.cls} label={f.tag.label} />
+          <TagBadge cls={f.tag.cls} label={articles[0]?.name} />
           <h2>
-            <a href="#">{f.title}</a>
+            <Link href={{
+              pathname: articles[0]?.slug ?? "",
+              query: { id: articles[0]?.id }
+            }}>
+              {articles[0]?.title}
+            </Link>
           </h2>
-          <p className={style["featured__main-desc"]}>{f.desc}</p>
-          <MetaRow date={f.date} read={f.read} author={f.author} />
+          <p className={style["featured__main-desc"]}>{articles[0]?.desc}</p>
+          {/* <MetaRow date={f.date} read={f.read} author={f.author} /> */}
         </Fade>
 
         {/* Side */}

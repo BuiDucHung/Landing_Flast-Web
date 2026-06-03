@@ -16,8 +16,7 @@ export const articleMeta = {
   views: "2,841 lượt xem",
   breadcrumbs: [
     { label: "Trang chủ", href: "/" },
-    { label: "Tin tức", href: "/tin-tuc" },
-    { label: "AI Agent", href: null },
+    { label: "Tin tức", href: "/tin-tuc" }
   ],
 };
 
