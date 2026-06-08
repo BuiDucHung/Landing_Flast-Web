@@ -112,21 +112,24 @@
 // }
 // export default NewFlast
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FEATURED_SIDE, PRODUCTS, TAGS, TRENDING } from "./data";
 import { ChevronLeft, ChevronRight } from "@/constants/icons";
 import SidebarFlast, { Fade } from "./SideBarFlast";
 import FeaturedStripFlast from "./FeaturedStripFlast";
 import ArticleCardFlast from "./ArticleCardFlast";
 import BackToTop from "../BackToTop";
-import { useCategory } from "@/context/NewCateContext";
-import { fetchArticleByCategory, Article } from "@/lib/api/newList";
+import { useCateOrNewArticel } from "@/context/NewCateContext";
 import style from "./new.module.scss";
+import Link from "next/link";
 
-interface pageProps {
-  totalElements: number;
-  total: number;
-  pageSize: number;
+interface PageProps {
+  currentPage: number;
+  currentCate: number;
+  pageInfo: {
+    total: number;
+    pageSize: number;
+  };
 }
 
 export function TagBadge({ cls, label }: { cls: string; label: string }) {
@@ -136,42 +139,25 @@ export function TagBadge({ cls, label }: { cls: string; label: string }) {
   );
 }
 
-const NewFlast = () => {
-  const newCategories = useCategory();
-  const [activeFilter, setActiveFilter] = useState<{ key: string; id: number | null }>({ key: "all", id: null });
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [page, setPage] = useState<pageProps>({totalElements: 0, total: 0, pageSize: 0})
-  const [currentPage, setCurrentPage] = useState(1);
+const NewFlast = ({
+  currentPage,
+  currentCate,
+  pageInfo,
+}: PageProps) => {
+  const { categories, articles } = useCateOrNewArticel();
   const [loading, setLoading] = useState(false);
 
   const filters = [
-    { key: "all", label: "Tất cả", id: null },
-    ...newCategories.map((cat) => ({
+    // { key: "all", label: "Tất cả", id: 19 },
+    ...categories.map((cat) => ({
       key: cat.slug,
       label: cat.name,
       id: cat.id,
     })),
   ];
 
-  useEffect(() => {
-    const load = async () => {
-      setLoading(true);
-      try {
-        const cateId = activeFilter.id ?? newCategories[0]?.id;
-        if (!cateId) return;
-        const res = await fetchArticleByCategory({ cateIds: cateId });
-        setArticles(res.data.embedded);
-        setPage(res.data.page);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, [activeFilter, newCategories, currentPage]);
+  const totalPages = Math.ceil(pageInfo.total / pageInfo.pageSize);
 
-  const totalPages = Math.ceil(page?.total / page?.pageSize);
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
   
   return (
@@ -189,13 +175,17 @@ const NewFlast = () => {
           </p>
           <div className={style.hero__filters}>
             {filters.map((f) => (
-              <button
-                key={f.key}
-                onClick={() => setActiveFilter({ key: f.key, id: f.id ?? null })}
-                className={`${style["hero__filter-btn"]} ${activeFilter.key === f.key ? style["hero__filter-btn--active"] : ""}`}
+              <Link
+                key={f.id}
+                href={`/tin-tuc?cate=${f.id}&page=1`}
+                className={`${style["hero__filter-btn"]} ${
+                  currentCate === f.id
+                    ? style["hero__filter-btn--active"]
+                    : ""
+                }`}
               >
                 {f.label}
-              </button>
+              </Link>
             ))}
           </div>
         </div>
@@ -223,24 +213,36 @@ const NewFlast = () => {
             )}
             <Fade>
               <div className={style.pagination}>
-                <a href="#" className={style.pagination__btn}><ChevronLeft /></a>
+                {currentPage > 1 && (
+                  <Link
+                    href={`/tin-tuc?cate=${currentCate}&page=${currentPage - 1}`}
+                    className={style.pagination__btn}
+                  >
+                    <ChevronLeft />
+                  </Link>
+                )}
                 {pages.map((n) => (
-                  <a
+                  <Link
                     key={n}
-                    href="#"
-                    className={`${style.pagination__btn} ${n === 1 ? style["pagination__btn--active"] : ""}`}
-                    onClick={(e) => { e.preventDefault(); setCurrentPage(n); }}
+                    href={`/tin-tuc?cate=${currentCate}&page=${n}`}
+                    className={`${style.pagination__btn} ${
+                      currentPage === n
+                        ? style["pagination__btn--active"]
+                        : ""
+                    }`}
                   >
                     {n}
-                  </a>
+                  </Link>
                 ))}
-                {/* <span className={style.pagination__dots}>···</span>
-                <a href="#" className={style.pagination__btn}>8</a>
-                <a href="#" className={style.pagination__btn}><ChevronRight /></a> */}
 
-                <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage((p) => Math.min(p + 1, totalPages)); }}>
-                  <ChevronRight />
-                </a>
+                {currentPage < totalPages && (
+                  <Link
+                    href={`/tin-tuc?cate=${currentCate}&page=${currentPage + 1}`}
+                    className={style.pagination__btn}
+                  >
+                    <ChevronRight />
+                  </Link>
+                )}
               </div>
             </Fade>
           </div>

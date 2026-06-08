@@ -468,7 +468,7 @@
     @include transition;
     text-decoration: none;
 
-    &:hover       { border-color: $blue-2; color: $blue-2; }
+    &:hover       { border-color: $blue-2; color: $white; }
     &--active     { background: $blue-2; border-color: $blue-2; color: $white; }
   }
 
@@ -760,3 +760,213 @@
   padding: 48px 0;
   text-align: center;
 }
+
+// ── Hamburger button ────────────────────────────────────────────────────────
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: $r;
+  transition: background 0.2s ease;
+
+  @media (max-width: calc($bp-md - 1px)) {
+    display: flex;
+  }
+
+  span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: $slate-7;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.25s ease, background 0.2s ease;
+    transform-origin: center;
+  }
+
+  &:hover {
+    background: $slate-1;
+    span { background: $navy; }
+  }
+
+  &--open {
+    span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    span:nth-child(2) { transform: scaleX(0); opacity: 0; }
+    span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  }
+}
+
+// ── Ẩn desktop buttons trên mobile ─────────────────────────────────────────
+.btn--hide-mobile {
+  @media (max-width: calc($bp-md - 1px)) {
+    display: none !important;
+  }
+}
+
+// ── Overlay ─────────────────────────────────────────────────────────────────
+.nav__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba($navy, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: overlayFadeIn 0.25s ease forwards;
+
+  @media (min-width: $bp-md) { display: none; }
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ── Mobile drawer ───────────────────────────────────────────────────────────
+.nav__drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 190;
+  width: min(300px, 85vw);
+  background: $white;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -12px 0 40px rgba($navy, 0.15);
+
+  // Viền gradient bên trái
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, $blue-2 0%, rgba($blue-2, 0.2) 100%);
+    opacity: 0;
+    transition: opacity 0.32s ease;
+  }
+
+  &--open {
+    transform: translateX(0);
+
+    &::before { opacity: 1; }
+  }
+
+  @media (min-width: $bp-md) { display: none; }
+}
+
+// Drawer header
+.nav__drawer_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 64px;
+  border-bottom: 1px solid $slate-3;
+  flex-shrink: 0;
+  background: $white;
+}
+
+// Nút đóng
+.nav__drawer_close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: $r;
+  border: 1.5px solid $slate-3;
+  background: transparent;
+  color: $slate-5;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background: $slate-1;
+    color: $slate-9;
+    border-color: $slate-5;
+  }
+}
+
+// Drawer links list
+.nav__drawer_links {
+  list-style: none;
+  padding: 8px 0;
+  flex: 1;
+  overflow-y: auto;
+
+  // Scrollbar mảnh
+  scrollbar-width: thin;
+  scrollbar-color: $slate-3 transparent;
+
+  &::-webkit-scrollbar        { width: 4px; }
+  &::-webkit-scrollbar-thumb  { background: $slate-3; border-radius: 99px; }
+
+  li {
+    // Stagger animation khi drawer mở
+    @for $i from 1 through 8 {
+      &:nth-child(#{$i}) a {
+        transition-delay: #{$i * 0.04}s;
+      }
+    }
+  }
+
+  li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    color: $slate-7;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, padding-left 0.2s ease;
+
+    &:hover {
+      color: $blue-2;
+      background: $blue-50;
+      border-left-color: $blue-2;
+      padding-left: 28px;
+    }
+
+    // Link active (Tin tức)
+    &--active-mobile,
+    &[class*="active"] {
+      color: $blue-2;
+      background: $blue-50;
+      border-left-color: $blue-2;
+      font-weight: 600;
+    }
+  }
+}
+
+// Drawer footer
+.nav__drawer_footer {
+  padding: 16px 20px;
+  border-top: 1px solid $slate-3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+  background: $slate-0;
+
+  .btn {
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    font-size: 13.5px;
+  }
+}
+
+// ── Nav mobile tweaks ────────────────────────────────────────
