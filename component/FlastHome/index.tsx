@@ -75,15 +75,21 @@ export default function HomePage() {
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add(s.in || "in");
+          if (e.isIntersecting) {
+            e.target.classList.add(s.visible);
+            obs.unobserve(e.target); // fire once
+          }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
     fadeRefs.current.forEach((el) => el && obs.observe(el));
     return () => obs.disconnect();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
 
   const addFadeRef = (el: HTMLElement | null) => {
     if (el && !fadeRefs.current.includes(el)) fadeRefs.current.push(el);
@@ -177,7 +183,7 @@ export default function HomePage() {
       </section>
 
       {/* ── LOGOS BAR ───────────────────────────────────────────────────── */}
-      <div className={s.logosBar}>
+      <div className={s.logosBar} ref={(el) => addFadeRef(el as HTMLElement)}>
         <p className={s.logosLabel}>Phương châm: Nhanh — Hiệu quả — Tiết kiệm</p>
         <div className={s.logosRow}>
           {trustLogos.map((l) => (
@@ -415,7 +421,7 @@ export default function HomePage() {
 
       {/* ── ERP INTEGRATION ─────────────────────────────────────────────── */}
       <section id="erp" className={s.erpSection}>
-        <div className={`${s.wrap} ${s.erpInner}`}>
+        <div className={`${s.wrap} ${s.erpInner}`} ref={(el) => addFadeRef(el as HTMLElement)}>
           <div>
             <div className={`${s.sKicker} ${s.erpKicker}`}>
               ERP Integration
@@ -493,7 +499,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SHIELD ──────────────────────────────────────────────────────── */}
-      <section id="shield" className={s.shieldSection}>
+      <section id="shield" className={s.shieldSection} ref={(el) => addFadeRef(el as HTMLElement)}>
         <div className={`${s.wrap} ${s.shieldInner}`}>
           <div>
             <div className={`${s.sKicker} ${s.shieldKicker}`}>
@@ -593,7 +599,7 @@ export default function HomePage() {
       {/* ── OPEN SOURCE ─────────────────────────────────────────────────── */}
       <section id="opensource" className={s.ossSection}>
         <div className={s.wrap}>
-          <div style={{ marginBottom: 48 }}>
+          <div className={s.opensource} style={{ marginBottom: 48 }} ref={(el) => addFadeRef(el as HTMLElement)}>
             <div className={`${s.sKicker} ${s.ossKicker}`}>Open Source</div>
             <h2 className={`${s.sTitle} ${s.ossTitle}`}>
               Open CDP-ERP — <strong>Hoàn toàn miễn phí</strong>
@@ -604,7 +610,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className={s.ossInner}>
+          <div className={s.ossInner} ref={(el) => addFadeRef(el as HTMLElement)}>
             <div>
               <div className={s.ossModules}>
                 {ossModules.map((m) => (
@@ -633,7 +639,6 @@ export default function HomePage() {
 
             <div
               className={s.ossCard}
-              ref={(el) => addFadeRef(el as HTMLElement)}
             >
               <div className={s.ossCardLabel}>GITHUB REPOSITORIES</div>
               {ossRepos.map((repo) => (
@@ -862,8 +867,8 @@ export default function HomePage() {
             className={s.csGrid}
             ref={(el) => addFadeRef(el as HTMLElement)}
           >
-            {caseStudies.slice(0, 3).map((cs) => (
-              <CaseCard key={cs.title} cs={cs} />
+            {caseStudies.slice(0, 3).map((cs, i) => (
+              <CaseCard key={cs.title} cs={cs} index={i}/>
             ))}
           </div>
           {/* Bottom 2 */}
@@ -871,8 +876,8 @@ export default function HomePage() {
             className={s.csGrid2}
             ref={(el) => addFadeRef(el as HTMLElement)}
           >
-            {caseStudies.slice(3).map((cs) => (
-              <CaseCard key={cs.title} cs={cs} />
+            {caseStudies.slice(3).map((cs, i) => (
+              <CaseCard key={cs.title} cs={cs} index={i}/>
             ))}
           </div>
         </div>
