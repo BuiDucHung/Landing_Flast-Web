@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Inter } from "next/font/google";
 import { FOOTER_COLS } from "@/component/FlastNew/data";
 import HeaderFlast from "@/component/Header";
 import FlastFooter from "@/component/Footer";
-import "./globals.css";
+import StyledComponentsRegistry from '@/app/StyledComponentsRegistry';
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -27,10 +26,14 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${inter.variable} antialiased`}
       >
-        <HeaderFlast />
-          {children}
-        <FlastFooter cols={FOOTER_COLS} />
+        <StyledComponentsRegistry>
+          <HeaderFlast />
+            {children}
+          <FlastFooter 
+            cols={FOOTER_COLS} 
+          />
+        </StyledComponentsRegistry>
       </body>
     </html>
-  );
-}
+  )
+};

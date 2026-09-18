@@ -10,11 +10,10 @@ import {
   relatedArticles,
   moreArticles,
 } from "./data";
-import BackToTop from "../BackToTop";
+import BackToTop from "@/component/BackToTop";
 import s from "./style.module.scss";
 import { ArticleNewDetail, ArticleNewDetailResponse } from "@/lib/api/newDetail";
 import { formatDate } from "@/utils";
-
 
 const ChevronRight = () => (
   <svg viewBox="0 0 24 24">
@@ -31,6 +30,7 @@ function CopyButton({ text }: { text: string }) {
       setTimeout(() => setCopied(false), 2000);
     });
   };
+
   return (
     <button className={s.codeCopy} onClick={handleCopy}>
       <svg viewBox="0 0 24 24">
@@ -39,16 +39,17 @@ function CopyButton({ text }: { text: string }) {
       </svg>
       {copied ? "Đã copy ✓" : "Copy"}
     </button>
-  );
-}
+  )
+};
 
 // ─── PAGE COMPONENT ───────────────────────────────────────────────────────
 export default function AIAgent2Page({detailNew}: {
   detailNew: ArticleNewDetail
 }) {
-  const [progress, setProgress] = useState(0);
-  const [showBtt, setShowBtt] = useState(false);
-  const [activeToc, setActiveToc] = useState("van-de");
+
+  const [ progress, setProgress ] = useState(0);
+  const [ showBtt, setShowBtt ] = useState(false);
+  const [ activeToc, setActiveToc ] = useState("van-de");
 
   useEffect(() => {
     const onScroll = () => {
@@ -260,8 +261,9 @@ export default function AIAgent2Page({detailNew}: {
                     <span className={s.num}>2.8s</span>){"\n"}
                     <span className={s.kw}>4.</span> Gửi email tự động ✓
                   </div>
-                </div> */}
-{/* 
+                </div> 
+                */}
+                {/* 
                 <div className={`${s.callout} ${s.success}`}>
                   <div className={s.calloutIcon}>
                     <svg viewBox="0 0 24 24">
@@ -499,5 +501,5 @@ export default function AIAgent2Page({detailNew}: {
       {/* ── BACK TO TOP ─────────────────────────────────────────────────── */}
       <BackToTop />
     </>
-  );
-}
+  )
+};

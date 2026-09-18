@@ -26,14 +26,11 @@ const FlastNew = async ({
 }) => {
 
   const params = await searchParams;
-
   const page = Number(params.page ?? 1);
-
   const cateRes = await fetchCategoryPage({ page: 1, limit: 10});
-
   const newCategories = cateRes.data.embedded;
-  const cateId = Number(params.cate) || newCategories?.[0]?.id;
 
+  const cateId = Number(params.cate) || newCategories?.[0]?.id;
   const newListRes = await fetchArticleByCategory({ cateIds: cateId, page, limit: 10});
 
   return (

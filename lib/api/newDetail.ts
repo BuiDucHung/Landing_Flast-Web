@@ -4,7 +4,7 @@ export interface ApiResponse<T> {
   message: string;
   success: boolean;
   data: T;
-}
+};
 
 export interface ArticleNewDetail {
   id: number;
@@ -24,22 +24,13 @@ export interface ArticleNewDetail {
   updatedAt: number;
   follow: number;
   index: number;
-}
+};
 
-// Sử dụng
 export type ArticleNewDetailResponse = ApiResponse<ArticleNewDetail>;
-
-export async function fetchNewDetail({
-  id
-}: {
+export async function fetchNewDetail({ id }: {
   id: number | string
 }) {
   const url = new URL(`${process.env.NEXT_PUBLIC_API_BASE_URL}/page-content/find-by-id?id=${id}`);
-
   const res = await fetch(url.toString(), { cache: "no-store" });
-
-  if (!res.ok) console.log('data lỗi');
-  ;
-
   return res.json() as Promise<ArticleNewDetailResponse>;
-}
+};
